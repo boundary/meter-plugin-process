@@ -1,0 +1,53 @@
+{
+	"description" : "Displays CPU use for a multiple process",      
+	"command" : "boundary-meter init.lua",
+	"command_lua" : "boundary-meter init.lua",
+	"metrics" : [
+              "METER_PROCESS_CPU",
+              "METER_PROCESS_MEMORY"
+              ],
+	"paramArray": {
+        "itemTitle": [
+          "source","processArgs","processPath","processCwd"
+        ],
+        "schemaTitle": "Process"
+     },
+	"paramSchema" : [
+		{
+			"title" : "Source",
+			"name" : "source",
+			"description" : "The source to display in the legend for the CPU data.",
+			"type" : "string"  
+		},
+		{
+			"title" : "Process Name Regex",
+			"name" : "processArgs",
+			"description" : "A regular expression to match the name of the process.",
+			"type" : "string"
+		},
+		{
+			"title" : "Process Path Regex",
+			"name" : "processPath",
+			"description" : "A regular expression to match the full path of the process.",
+			"type" : "string"
+		},
+		{
+			"title" : "Process CWD Regex",
+			"name" : "processCwd",
+			"description" : "A regular expression to match the current working directory of the process.",
+			"type" : "string"
+		},
+    {
+			"title" : "Poll Interval",
+			"name" : "pollInterval",
+			"description" : "A number in milisecond to define the poll interval.",
+			"type" : "number"
+		},
+		{
+			"title" : "Reconcile option",
+			"name" : "reconcile",
+			"description" : "How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked), or Longest Running to pick the process that has been running the longest.",
+			"type" : { "enum" : [["None", "none"], ["First Match", "first"], ["Parent", "parent"], ["Longest Running", "uptime"]]}
+		}
+	]
+}

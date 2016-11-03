@@ -1,0 +1,18 @@
+{
+  "METER_PROCESS_CPU": {
+    "defaultAggregate": "AVG",
+    "defaultResolutionMS": 1000,
+    "description": "Process specific CPU utilization",
+    "displayName": "Process CPU Percentage",
+    "displayNameShort": "Process CPU",
+    "unit": "percent"
+  },
+  "METER_PROCESS_MEMORY": {
+    "defaultAggregate": "AVG",
+    "defaultResolutionMS": 1000,
+    "description": "Process specific Mamory utilization",
+    "displayName": "Process Memory",
+    "displayNameShort": "Process Memory",
+    "unit": "percent"
+  }
+}
