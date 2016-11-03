@@ -1860,7 +1860,7 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,params,parse)
   socket:write(ProcessCpuDataSource:getProcessData(params))
   socket:once('data',function(data)
   local sucess,  parsed = parseJson(data)
-  print("===> "+json.stringify(parsed));
+  local timestamp = os.time()
   local result = {}
    if(parsed.result.processes~=nil)then
     for K,V  in pairs(parsed.result.processes) do
@@ -1868,13 +1868,12 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,params,parse)
       resultitem['metric']='METER_PROCESS_CPU'
       resultitem['val']= V["cpuPct"]/100
       resultitem['source']= params['source']..V["name"]..V["pid"]
-      local timestamp = os.time()
       resultitem['timestamp']=timestamp
       table.insert(result,resultitem)
       
       local itm={}
       itm['metric']='METER_PROCESS_MEMORY'
-      itm['val']= V["memory"]/100
+      itm['val']= V["memPct"]/100
       itm['source']= params['source']..V["name"]..V["pid"]
       itm['timestamp']=timestamp
       table.insert(result,itm)
