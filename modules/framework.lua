@@ -1862,6 +1862,7 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,params,parse)
   local sucess,  parsed = parseJson(data)
   local timestamp = os.time()
   local result = {}
+  print(json.stringify(params))
    if(parsed.result.processes~=nil)then
     for K,V  in pairs(parsed.result.processes) do
       local resultitem={}

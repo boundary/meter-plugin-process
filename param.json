@@ -5,7 +5,10 @@
 			"source" : "localhost",
 			"processArgs" : ".*meter",
       "reconcile":"first",
-      "pollInterval":1000
+      "pollInterval":1000,
+      "isCpuMetricsReq":true,
+      "isMemMetricsReq":true
+      
 		}
 	],
   "pollInterval" : 1000

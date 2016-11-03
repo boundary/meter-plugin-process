@@ -43,6 +43,24 @@
 			"description" : "A number in milisecond to define the poll interval.",
 			"type" : "number"
 		},
+    {
+			"title" : "Collect Cpu Utilization",
+			"name" : "isCpuMetricsReq",
+			"description" : "Check this field if you want CPU utilization data.",
+			"type" : "boolean"
+		},
+    {
+			"title" : "Collect Memory Utilization",
+			"name" : "isMemMetricsReq",
+			"description" : "Check this field if you want Memory utilization data.",
+			"type" : "boolean"
+		},
+    {
+			"title" : "Poll Interval",
+			"name" : "pollInterval",
+			"description" : "A number in milisecond to define the poll interval.",
+			"type" : "number"
+		},
 		{
 			"title" : "Reconcile option",
 			"name" : "reconcile",

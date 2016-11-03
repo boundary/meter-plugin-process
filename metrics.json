@@ -10,7 +10,7 @@
   "METER_PROCESS_MEMORY": {
     "defaultAggregate": "AVG",
     "defaultResolutionMS": 1000,
-    "description": "Process specific Mamory utilization",
+    "description": "Process specific Memory utilization",
     "displayName": "Process Memory",
     "displayNameShort": "Process Memory",
     "unit": "percent"
