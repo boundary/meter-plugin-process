@@ -1862,22 +1862,26 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,params,parse)
   local sucess,  parsed = parseJson(data)
   local timestamp = os.time()
   local result = {}
-  print(json.stringify(params))
    if(parsed.result.processes~=nil)then
     for K,V  in pairs(parsed.result.processes) do
-      local resultitem={}
-      resultitem['metric']='METER_PROCESS_CPU'
-      resultitem['val']= V["cpuPct"]/100
-      resultitem['source']= params['source']..V["name"]..V["pid"]
-      resultitem['timestamp']=timestamp
-      table.insert(result,resultitem)
-      
-      local itm={}
-      itm['metric']='METER_PROCESS_MEMORY'
-      itm['val']= V["memPct"]/100
-      itm['source']= params['source']..V["name"]..V["pid"]
-      itm['timestamp']=timestamp
-      table.insert(result,itm)
+       if(params.isCpuMetricsReq) then
+        local resultitem={}
+        resultitem['metric']='METER_PROCESS_CPU'
+        resultitem['val']= V["cpuPct"]/100
+        resultitem['source']= params['source']..V["name"]..V["pid"]
+        resultitem['timestamp']=timestamp
+        table.insert(result,resultitem)
+      end
+
+      if(params.isMemMetricsReq) then
+        local itm={}
+        itm['metric']='METER_PROCESS_MEMORY'
+        itm['val']= V["memPct"]/100
+        itm['source']= params['source']..V["name"]..V["pid"]
+        itm['timestamp']=timestamp
+        table.insert(result,itm)
+      end
+
       --i=i+1;
     end
   end

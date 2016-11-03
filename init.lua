@@ -22,8 +22,10 @@ local createOptions=function(item)
    options.cwd_expr = item.processCwd or ''
    options.args_expr = item.processArgs or ''
    options.reconcile = item.reconcile or ''
+   options.isCpuMetricsReq = item.isCpuMetricsReq or false
+   options.isMemMetricsReq = item.isMemMetricsReq or false
    options.pollInterval = notEmpty(tonumber(item.pollInterval),1000)
-
+    
    return options
 end
 
