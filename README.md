@@ -28,6 +28,10 @@ None
 |Process CWD Regex |A regular expression to match the current working directory of the process.                                                                                                                                                                                    |
 |Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked), or Longest Running to pick the process that has been running the longest.|
 
+|Collect Cpu Utilization  |A check/uncheck option to active/inactive CPU utilization metrics display .|
+
+|Collect Memory Utilization  |A check/uncheck option to active/inactive Memory Utilization metrics display.|
+
 ### Metrics Collected
 
 |Metric Name|Description                     |
