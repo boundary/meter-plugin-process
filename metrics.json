@@ -11,7 +11,7 @@
     "defaultAggregate": "AVG",
     "defaultResolutionMS": 1000,
     "description": "Process specific Memory utilization",
-    "displayName": "Process Memory",
+    "displayName": "Process Memory Percentage",
     "displayNameShort": "Process Memory",
     "unit": "percent"
   }

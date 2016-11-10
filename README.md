@@ -1,7 +1,7 @@
-Boundary Process CPU Plugin
----------------------------
+Truesight pulse Process Plugin
+---------------------------------
 
-Displays CPU usage (%) for specific processes. Uses regular expressions to specify a process name, process full path, and/or the process current working directory. As above, currently only works for Linux based systems that support procfs (i.e. have a /proc directory). **Note**: to monitor processes with elevated priviledges requires running the meter as root, which is not recommended.
+Displays CPU usage (%) & Memory usage(%) for specific processes. Uses regular expressions to specify a process name, process full path, and/or the process current working directory. As above, currently only works for Linux based systems.
 
 ### Prerequisites
 
@@ -32,9 +32,8 @@ None
 
 |Metric Name|Description                     |
 |:----------|:-------------------------------|
-|CPU Process|Process specific CPU utilization|
-
-
+|Process CPU|Process specific CPU utilization|
+|Process Memory|Process specific Memory utilization|
 
 
 
