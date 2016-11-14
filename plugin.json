@@ -6,6 +6,12 @@
               "METER_PROCESS_CPU",
               "METER_PROCESS_MEMORY"
               ],
+  "dashboards": [
+    {
+      "name": "Meter Process Cpu & Memory",
+      "layout":"d-w=1&d-h=2&d-pad=5&d-light=1&d-bg=none&d-g-METER_PROCESS_CPU=0-0-1-1&d-g-METER_PROCESS_MEMORY=0-1-1-1"
+    }
+  ],
 	"paramArray": {
         "itemTitle": [
           "source","processArgs","processPath","processCwd"
@@ -58,8 +64,8 @@
 		{
 			"title" : "Reconcile option",
 			"name" : "reconcile",
-			"description" : "How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked), or Longest Running to pick the process that has been running the longest.",
-			"type" : { "enum" : [["None", "none"], ["First Match", "first"], ["Parent", "parent"], ["Longest Running", "uptime"]]}
+			"description" : "How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked)",
+			"type" : { "enum" : [["None", "none"], ["First Match", "first"], ["Parent", "parent"]]}
 		}
 	]
 }
