@@ -1832,7 +1832,7 @@ function ProcessCpuDataSource:fetch(context, callback,params)
   local parse = function (val)
       local result = {}
       if table.getn(val) <= 0 then
-          self:emit('error', 'No process found with specifications given: ')
+          self:emit('error', 'No process found with specifications given: '..json.stringify(self.options))
           return
       end
       for K,V  in pairs(val) do
