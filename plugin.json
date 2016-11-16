@@ -27,7 +27,7 @@
 		},
 		{
 			"title" : "Process Name Regex",
-			"name" : "processArgs",
+			"name" : "processName",
 			"description" : "A regular expression to match the name of the process.",
 			"type" : "string"
 		},
@@ -41,6 +41,12 @@
 			"title" : "Process CWD Regex",
 			"name" : "processCwd",
 			"description" : "A regular expression to match the current working directory of the process.",
+			"type" : "string"
+		},
+    {
+			"title" : "Process Args Regex",
+			"name" : "processArgs",
+			"description" : "A regular expression to match the arguments of the process.",
 			"type" : "string"
 		},
     {
