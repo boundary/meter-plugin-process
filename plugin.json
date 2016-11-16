@@ -1,5 +1,5 @@
 {
-	"description" : "Displays CPU use for a multiple process",      
+	"description" : "Displays CPU & Memory percentage use for multiple processes on a source",      
 	"command" : "boundary-meter init.lua",
 	"command_lua" : "boundary-meter init.lua",
 	"metrics" : [
@@ -14,7 +14,7 @@
   ],
 	"paramArray": {
         "itemTitle": [
-          "source","processArgs","processPath","processCwd"
+          "source","processName","processArgs","processPath","processCwd"
         ],
         "schemaTitle": "Process"
      },
