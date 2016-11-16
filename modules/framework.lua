@@ -1854,31 +1854,31 @@ end
 
 
 
-function ProcessCpuDataSource:getProcessCpuData(port,host,params,parse)
+function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
   local callback = function()
   end
   local socket = net.createConnection(tonumber(port), host, callback)
-  socket:write(ProcessCpuDataSource:getProcessData(params))
+  socket:write(ProcessCpuDataSource:getProcessData(prams))
   socket:once('data',function(data)
   local sucess,  parsed = parseJson(data)
   local timestamp = os.time()
   local result = {}
    if(parsed.result.processes~=nil)then
     for K,V  in pairs(parsed.result.processes) do
-       if(params.isCpuMetricsReq) then
+       if(prams.isCpuMetricsReq) then
         local resultitem={}
         resultitem['metric']='METER_PROCESS_CPU'
         resultitem['val']= V["cpuPct"]/100
-        resultitem['source']= params['source']..V["name"]..V["pid"]
+        resultitem['source']= prams['source']..V["name"]..V["pid"]
         resultitem['timestamp']=timestamp
         table.insert(result,resultitem)
       end
 
-      if(params.isMemMetricsReq) then
+      if(prams.isMemMetricsReq) then
         local itm={}
         itm['metric']='METER_PROCESS_MEMORY'
         itm['val']= V["memPct"]/100
-        itm['source']= params['source']..V["name"]..V["pid"]
+        itm['source']= prams['source']..V["name"]..V["pid"]
         itm['timestamp']=timestamp
         table.insert(result,itm)
       end
