@@ -20,7 +20,7 @@ local plugin = nil
 local createOptions=function(item)
 
    local options = {}
-   options.source = item.source or hostName
+   options.source = notEmpty(item.source,hostName)
    options.process = item.processName or ''
    options.path_expr = item.processPath or ''
    options.cwd_expr = item.processCwd or ''
