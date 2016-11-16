@@ -40,7 +40,7 @@ local createPollers=function(params)
 
         for _, item in pairs(params.items) do
                 local cs = createStats(item)
-                local statsPoller = DataSourcePoller:new(tonumber(item.pollInterval), cs)
+                local statsPoller = DataSourcePoller:new(notEmpty(tonumber(item.pollInterval),1000), cs)
                 polers:add(statsPoller)
         end
         return polers

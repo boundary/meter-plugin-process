@@ -26,7 +26,7 @@ None
 |Process Name Regex|A regular expression to match the name of the process.                                                                                                                                                                                                         |
 |Process Path Regex|A regular expression to match the full path of the process.                                                                                                                                                                                                    |
 |Process CWD Regex |A regular expression to match the current working directory of the process.                                                                                                                                                                                    |
-|Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked).|
+|Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked) and Longest running to choose longest running process|
 
 |Collect Cpu Utilization  |A check/uncheck option to active/inactive CPU utilization metrics display .|
 
