@@ -9,7 +9,7 @@
   "dashboards": [
     {
       "name": "Meter Process Cpu & Memory",
-      "layout":"d-w=1&d-h=2&d-pad=5&d-light=1&d-bg=none&d-g-METER_PROCESS_CPU=0-0-1-1&d-g-METER_PROCESS_MEMORY=0-1-1-1"
+      "layout":"d-w=1&d-h=2&d-pad=5&d-light=1&d-bg=none&d-g-CPU_PROCESS=0-0-1-1&d-g-MEM_PROCESS=0-1-1-1"
     }
   ],
 	"paramArray": {
