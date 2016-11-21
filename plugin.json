@@ -3,8 +3,8 @@
 	"command" : "boundary-meter init.lua",
 	"command_lua" : "boundary-meter init.lua",
 	"metrics" : [
-              "METER_PROCESS_CPU",
-              "METER_PROCESS_MEMORY"
+               "CPU_PROCESS",
+              "MEM_PROCESS"
               ],
   "dashboards": [
     {

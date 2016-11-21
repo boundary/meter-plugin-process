@@ -1429,10 +1429,19 @@ end
 function Plugin:onFormat(metric, value, source, timestamp)
   source = string.gsub(source, '[!@#$%%^&*() {}<>/\\|]', '_')
   if timestamp then
-    return string.format('%s %f %s %s', metric, value, source, timestamp)
+    if metric=='MEM_PROCESS' then
+      return string.format('%s %d %s %s', metric, value, source, timestamp)
+    else
+        return string.format('%s %f %s %s', metric, value, source, timestamp)
+    end
   else
-    return string.format('%s %f %s', metric, value, source)
+    if metric=='MEM_PROCESS' then
+      return string.format('%s %d %s %s', metric, value, source)
+    else
+        return string.format('%s %f %s %s', metric, value, source)
+    end
   end
+
 end
 
 --- Acumulator Class
@@ -1867,7 +1876,7 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
     for K,V  in pairs(parsed.result.processes) do
        if(prams.isCpuMetricsReq) then
         local resultitem={}
-        resultitem['metric']='METER_PROCESS_CPU'
+        resultitem['metric']='CPU_PROCESS'
         resultitem['val']= V["cpuPct"]/100
         resultitem['source']= prams['source']..V["name"]..V["pid"]
         resultitem['timestamp']=timestamp
@@ -1876,8 +1885,8 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
 
       if(prams.isMemMetricsReq) then
         local itm={}
-        itm['metric']='METER_PROCESS_MEMORY'
-        itm['val']= V["memPct"]/100
+        itm['metric']='MEM_PROCESS'
+        itm['val']= V["memRss"]
         itm['source']= prams['source']..V["name"]..V["pid"]
         itm['timestamp']=timestamp
         table.insert(result,itm)
