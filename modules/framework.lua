@@ -1429,10 +1429,19 @@ end
 function Plugin:onFormat(metric, value, source, timestamp)
   source = string.gsub(source, '[!@#$%%^&*() {}<>/\\|]', '_')
   if timestamp then
-    return string.format('%s %f %s %s', metric, value, source, timestamp)
+    if metric=='MEM_PROCESS' then
+      return string.format('%s %d %s %s', metric, value, source, timestamp)
+    else
+        return string.format('%s %f %s %s', metric, value, source, timestamp)
+    end
   else
-    return string.format('%s %f %s', metric, value, source)
+    if metric=='MEM_PROCESS' then
+      return string.format('%s %d %s %s', metric, value, source)
+    else
+        return string.format('%s %f %s %s', metric, value, source)
+    end
   end
+
 end
 
 --- Acumulator Class
@@ -1810,6 +1819,7 @@ function FileReaderDataSource:fetch(context, func, params)
 end
 
 
+
 -- @vitiwari
 -- This datasource to get percentage cpu usage based on parameters
 -- @type ProcessCpuDataSource
@@ -1832,7 +1842,7 @@ function ProcessCpuDataSource:fetch(context, callback,params)
   local parse = function (val)
       local result = {}
       if table.getn(val) <= 0 then
-          self:emit('error', 'No process found with specifications given: ')
+          self:emit('error', 'No process found with specifications given: '..json.stringify(self.options))
           return
       end
       for K,V  in pairs(val) do
@@ -1853,31 +1863,31 @@ end
 
 
 
-function ProcessCpuDataSource:getProcessCpuData(port,host,params,parse)
+function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
   local callback = function()
   end
   local socket = net.createConnection(tonumber(port), host, callback)
-  socket:write(ProcessCpuDataSource:getProcessData(params))
+  socket:write(ProcessCpuDataSource:getProcessData(prams))
   socket:once('data',function(data)
   local sucess,  parsed = parseJson(data)
   local timestamp = os.time()
   local result = {}
    if(parsed.result.processes~=nil)then
     for K,V  in pairs(parsed.result.processes) do
-       if(params.isCpuMetricsReq) then
+       if(prams.isCpuMetricsReq) then
         local resultitem={}
-        resultitem['metric']='METER_PROCESS_CPU'
+        resultitem['metric']='CPU_PROCESS'
         resultitem['val']= V["cpuPct"]/100
-        resultitem['source']= params['source']..V["name"]..V["pid"]
+        resultitem['source']= prams['source']..V["name"]..V["pid"]
         resultitem['timestamp']=timestamp
         table.insert(result,resultitem)
       end
 
-      if(params.isMemMetricsReq) then
+      if(prams.isMemMetricsReq) then
         local itm={}
-        itm['metric']='METER_PROCESS_MEMORY'
-        itm['val']= V["memPct"]/100
-        itm['source']= params['source']..V["name"]..V["pid"]
+        itm['metric']='MEM_PROCESS'
+        itm['val']= V["memRss"]
+        itm['source']= prams['source']..V["name"]..V["pid"]
         itm['timestamp']=timestamp
         table.insert(result,itm)
       end

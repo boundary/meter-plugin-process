@@ -1,14 +1,20 @@
 {
-	"description" : "Displays CPU use for a multiple process",      
+	"description" : "Displays CPU & Memory percentage use for multiple processes on a source",      
 	"command" : "boundary-meter init.lua",
 	"command_lua" : "boundary-meter init.lua",
 	"metrics" : [
-              "METER_PROCESS_CPU",
-              "METER_PROCESS_MEMORY"
+               "CPU_PROCESS",
+              "MEM_PROCESS"
               ],
+  "dashboards": [
+    {
+      "name": "Meter Process Cpu & Memory",
+      "layout":"d-w=1&d-h=2&d-pad=5&d-light=1&d-bg=none&d-g-CPU_PROCESS=0-0-1-1&d-g-MEM_PROCESS=0-1-1-1"
+    }
+  ],
 	"paramArray": {
         "itemTitle": [
-          "source","processArgs","processPath","processCwd"
+          "source","processName","processArgs","processPath","processCwd"
         ],
         "schemaTitle": "Process"
      },
@@ -21,7 +27,7 @@
 		},
 		{
 			"title" : "Process Name Regex",
-			"name" : "processArgs",
+			"name" : "processName",
 			"description" : "A regular expression to match the name of the process.",
 			"type" : "string"
 		},
@@ -38,10 +44,17 @@
 			"type" : "string"
 		},
     {
+			"title" : "Process Args Regex",
+			"name" : "processArgs",
+			"description" : "A regular expression to match the arguments of the process.",
+			"type" : "string"
+		},
+    {
 			"title" : "Poll Interval",
 			"name" : "pollInterval",
 			"description" : "A number in milisecond to define the poll interval.",
-			"type" : "number"
+			"type" : "number",
+      "default": 1000
 		},
     {
 			"title" : "Collect Cpu Utilization",
@@ -58,8 +71,8 @@
 		{
 			"title" : "Reconcile option",
 			"name" : "reconcile",
-			"description" : "How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked), or Longest Running to pick the process that has been running the longest.",
-			"type" : { "enum" : [["None", "none"], ["First Match", "first"], ["Parent", "parent"], ["Longest Running", "uptime"]]}
+			"description" : "How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked) and Longest running for choosing longest running process",
+			"type" : { "enum" : [["All", "all"], ["First Match", "first"], ["Parent", "parent"],["Longest Running", "longest"]]}
 		}
 	]
 }
