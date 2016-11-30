@@ -26,35 +26,19 @@
 			"type" : "string"  
 		},
 		{
-			"title" : "Process Name Regex",
-			"name" : "processName",
-			"description" : "A regular expression to match the name of the process.",
-			"type" : "string"
+			"title" : "Process Parameter Option",
+			"name" : "processParamOption",
+			"description" : "Parameter option for process matching. Parameter can be any of name/path/cwd/args regex. Choose the parameter option as Process Name Regex or Process Path Regex or Process CWD Regex or Process Args Regex",
+			"type" : { "enum" : [["Process Name Regex", "nameregex"], ["Process Path Regex", "pathregex"], ["Process CWD Regex", "cwdregex"],["Process Args Regex", "argsregex"]]},
+      "default": "nameregex",
+       "required": true
 		},
 		{
-			"title" : "Process Path Regex",
-			"name" : "processPath",
-			"description" : "A regular expression to match the full path of the process.",
-			"type" : "string"
-		},
-		{
-			"title" : "Process CWD Regex",
-			"name" : "processCwd",
-			"description" : "A regular expression to match the current working directory of the process.",
-			"type" : "string"
-		},
-    {
-			"title" : "Process Args Regex",
-			"name" : "processArgs",
-			"description" : "A regular expression to match the arguments of the process.",
-			"type" : "string"
-		},
-    {
-			"title" : "Poll Interval",
-			"name" : "pollInterval",
-			"description" : "A number in milisecond to define the poll interval.",
-			"type" : "number",
-      "default": 1000
+			"title" : "Process Param Value",
+			"name" : "processParamValue",
+			"description" : "A regular expression to match the chosen option(name/path/cwd/args) of the process.",
+			"type" : "string",
+      "required": true
 		},
     {
 			"title" : "Collect Cpu Utilization",
