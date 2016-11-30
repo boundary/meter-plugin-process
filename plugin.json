@@ -14,7 +14,7 @@
   ],
 	"paramArray": {
         "itemTitle": [
-          "source","processName","processArgs","processPath","processCwd"
+          "source","processName","processParamOption","processParamValue"
         ],
         "schemaTitle": "Process"
      },
