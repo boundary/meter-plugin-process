@@ -22,7 +22,7 @@ local createOptions=function(item)
    local options = {}
    options.source = notEmpty(item.source,hostName)
    
-   //default
+   --default
    options.process = ''
    options.path_expr = ''
    options.cwd_expr = ''
