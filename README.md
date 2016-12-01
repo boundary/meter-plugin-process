@@ -7,7 +7,7 @@ Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regul
 
 |     OS    | Linux | Windows | SmartOS | OS X |
 |:----------|:-----:|:-------:|:-------:|:----:|
-| Supported |   v   |    -    |    -    |  -   |
+| Supported |   v   |    v    |    v    |  v   |
 
 
 |  Runtime | node.js | Python | Java |
@@ -22,10 +22,10 @@ None
 
 |Field Name        |Description                                                                                                                                                                                                                                                    |
 |:-----------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Source            |The source to display in the legend for the CPU data.                                                                                                                                                                                                          |
-|Process Name Regex|A regular expression to match the name of the process.                                                                                                                                                                                                         |
-|Process Path Regex|A regular expression to match the full path of the process.                                                                                                                                                                                                    |
-|Process CWD Regex |A regular expression to match the current working directory of the process.                                                                                                                                                                                    |
+|Source            |The source to display in the legend for the CPU data.|
+|Process Parameter Option|Parameter option for matching process. Parameter can be any of name/path/cwd/args regex. Choose the parameter option as Process Name Regex, Process Path Regex, Process CWD Regex or Process Args Regex |
+|Process Parameter Value|A regular expression to match the chosen Param Option(name/path/cwd/args) of the process. |
+                                                                     |
 |Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked) and Longest running to choose longest running process|
 
 |Collect Cpu Utilization  |A check/uncheck option to active/inactive CPU utilization metrics display .|
