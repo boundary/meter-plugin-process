@@ -3,7 +3,7 @@
 	[
 		{
 			"source" : "localhost",
-			"processParamOption" : "nameregex"
+			"processParamOption" : "nameregex",
       "processParamValue":".*meter",
       "reconcile":"first",
       "pollInterval":1000,
