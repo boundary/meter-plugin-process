@@ -24,7 +24,7 @@ None
 |:-----------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |Source            |The source to display in the legend for the CPU data.|
 |Process Parameter Option|Parameter option for process matching. Parameter can be any of name/path/cwd/args regex. Choose the parameter option as Process Name Regex or Process Path Regex or Process CWD Regex or Process Args Regex |
-|Process Param Value|A regular expression to match the chosen Param Option(name/path/cwd/args) of the process. |
+|Process Parameter Value|A regular expression to match the chosen Param Option(name/path/cwd/args) of the process. |
                                                                      |
 |Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked) and Longest running to choose longest running process|
 
