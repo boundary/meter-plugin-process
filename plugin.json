@@ -14,7 +14,7 @@
   ],
 	"paramArray": {
         "itemTitle": [
-          "source","processName","processParamOption","processParamValue"
+          "source","processParamOption","processParamValue"
         ],
         "schemaTitle": "Process"
      },
@@ -34,7 +34,7 @@
        "required": true
 		},
 		{
-			"title" : "Process Param Value",
+			"title" : "Process Parameter Value",
 			"name" : "processParamValue",
 			"description" : "A regular expression to match the chosen option(name/path/cwd/args) of the process.",
 			"type" : "string",
