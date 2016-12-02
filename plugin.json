@@ -1,4 +1,6 @@
 {
+  "version" : "0.0.1",
+  "tags" : "process", 
 	"description" : "Displays CPU percentage & Memory use for multiple processes on a source",      
 	"command" : "boundary-meter init.lua",
 	"command_lua" : "boundary-meter init.lua",

@@ -18,7 +18,7 @@ Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regul
 |Source            |The source to display in the legend for the CPU data.                                                                                                                                                                                                          |
 |Process Name Regex*|A regular expression to match the name of the process.                                                                                                                                                                                                         |
 |Process Path Regex*|A regular expression to match the full path of the process.                                                                                                                                                                                                    |
-|Process CWD Regex |A regular expression to match the current working directory of the process.                                                                                                                                                                                    |
+|Process CWD Regex* |A regular expression to match the current working directory of the process.                                                                                                                                                                                    |
 |Process Args Regex*|A regular expression to match the arguments of the process.                                                                                                                                                                                                    |
 |Polling Interval|A numeric value representing polling interval time in miliseconds (ex 1000 for 1 Sec).                                                                                                                                                                                                    |
 |Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked), or Longest Running to pick the process that has been running the longest.|
@@ -26,12 +26,7 @@ Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regul
 
 ### Metrics Collected
 
-|Metric Name|Description                     |
-|:----------|:-------------------------------|
-|CPU Process|Process specific CPU utilization|
-|Memory Process|Process specific Memory utilization|
-
-
-
-
-
+|Metric Name   |Description                                                             |
+|:-------------|:-----------------------------------------------------------------------|
+|CPU Process   |Process specific CPU utilization                                        |
+|Memory Process|Process specific Memory utilization                                     |
