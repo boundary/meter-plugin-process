@@ -3,8 +3,7 @@
 	[
 		{
 			"source" : "localhost",
-			"processParamOption" : "nameregex",
-      "processParamValue":".*meter",
+			"processArgs" : ".*meter",
       "reconcile":"first",
       "pollInterval":1000,
       "isCpuMetricsReq":true,
