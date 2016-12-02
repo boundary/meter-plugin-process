@@ -1,5 +1,5 @@
 {
-  "version" : "0.0.1",
+  "version" : "0.9.0",
   "tags" : "process", 
 	"description" : "Displays CPU percentage & Memory use for multiple processes on a source",      
 	"command" : "boundary-meter init.lua",
@@ -24,7 +24,7 @@
 		{
 			"title" : "Source",
 			"name" : "source",
-			"description" : "The source to append with processName & display in the legend for the CPU data.",
+			"description" : "The source to append with processName & display in the legend for the CPU & Memory data.",
 			"type" : "string"  
 		},
 		{
@@ -59,7 +59,7 @@
       "default": 1000
 		},
     {
-			"title" : "Collect Cpu Utilization",
+			"title" : "Collect CPU Utilization",
 			"name" : "isCpuMetricsReq",
 			"description" : "Check this field if you want CPU utilization data.",
 			"type" : "boolean"

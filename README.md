@@ -1,4 +1,4 @@
-Meter Process Plugin
+TrueSight Pulse Process Plugin
 ---------------------------
 
 Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regular expressions to specify a process name, process full path, the process current working directory and/or process arguments .
@@ -15,7 +15,7 @@ Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regul
 #### Plugin Configuration Fields
 |Field Name        |Description                                                                                                                                                                                                                                                    |
 |:-----------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Source            |The source to display in the legend for the CPU data.                                                                                                                                                                                                          |
+|Source            |The source to display in the legend for the CPU & Memory data.                                                                                                                                                                                                          |
 |Process Name Regex*|A regular expression to match the name of the process.                                                                                                                                                                                                         |
 |Process Path Regex*|A regular expression to match the full path of the process.                                                                                                                                                                                                    |
 |Process CWD Regex* |A regular expression to match the current working directory of the process.                                                                                                                                                                                    |
