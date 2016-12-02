@@ -1,5 +1,7 @@
 {
-	"description" : "Displays CPU & Memory percentage use for multiple processes on a source",      
+  "version" : "0.9.0",
+  "tags" : "process", 
+	"description" : "Displays CPU percentage & Memory use for multiple processes on a source",      
 	"command" : "boundary-meter init.lua",
 	"command_lua" : "boundary-meter init.lua",
 	"metrics" : [
@@ -8,13 +10,13 @@
               ],
   "dashboards": [
     {
-      "name": "Meter Process Cpu & Memory",
+      "name": "Process",
       "layout":"d-w=1&d-h=2&d-pad=5&d-light=1&d-bg=none&d-g-CPU_PROCESS=0-0-1-1&d-g-MEM_PROCESS=0-1-1-1"
     }
   ],
 	"paramArray": {
         "itemTitle": [
-          "source","processParamOption","processParamValue"
+          "source","processName","processArgs","processPath","processCwd"
         ],
         "schemaTitle": "Process"
      },
@@ -22,26 +24,42 @@
 		{
 			"title" : "Source",
 			"name" : "source",
-			"description" : "The source to display in the legend for the CPU data.",
+			"description" : "The source to append with processName & display in the legend for the CPU & Memory data.",
 			"type" : "string"  
 		},
 		{
-			"title" : "Process Parameter Option",
-			"name" : "processParamOption",
-			"description" : "Parameter option for process matching. Parameter can be any of name/path/cwd/args regex. Choose the parameter option as Process Name Regex or Process Path Regex or Process CWD Regex or Process Args Regex",
-			"type" : { "enum" : [["Process Name Regex", "nameregex"], ["Process Path Regex", "pathregex"], ["Process CWD Regex", "cwdregex"],["Process Args Regex", "argsregex"]]},
-      "default": "nameregex",
-       "required": true
+			"title" : "Process Name Regex",
+			"name" : "processName",
+			"description" : "A regular expression to match the name of the process. Please input value for at least one of process name, path, cwd or args regex parameter fields",
+			"type" : "string"
 		},
 		{
-			"title" : "Process Parameter Value",
-			"name" : "processParamValue",
-			"description" : "A regular expression to match the chosen option(name/path/cwd/args) of the process.",
-			"type" : "string",
-      "required": true
+			"title" : "Process Path Regex",
+			"name" : "processPath",
+			"description" : "A regular expression to match the full path of the process. Please input value for at least one of process name, path, cwd or args regex parameter fields",
+			"type" : "string"
+		},
+		{
+			"title" : "Process CWD Regex",
+			"name" : "processCwd",
+			"description" : "A regular expression to match the current working directory of the process. Please input value for at least one of process name, path, cwd or args regex parameter fields",
+			"type" : "string"
 		},
     {
-			"title" : "Collect Cpu Utilization",
+			"title" : "Process Args Regex",
+			"name" : "processArgs",
+			"description" : "A regular expression to match the arguments of the process. Please input value for at least one of process name, path, cwd or args regex parameter fields",
+			"type" : "string"
+		},
+    {
+			"title" : "Poll Interval",
+			"name" : "pollInterval",
+			"description" : "A number in milisecond to define the poll interval.",
+			"type" : "number",
+      "default": 1000
+		},
+    {
+			"title" : "Collect CPU Utilization",
 			"name" : "isCpuMetricsReq",
 			"description" : "Check this field if you want CPU utilization data.",
 			"type" : "boolean"

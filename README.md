@@ -1,7 +1,7 @@
-Truesight pulse Process Plugin
----------------------------------
+TrueSight Pulse Process Plugin
+---------------------------
 
-Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regular expressions to specify a process name, process full path, and/or the process current working directory. As above, currently only works for Linux based systems.
+Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regular expressions to specify a process name, process full path, the process current working directory and/or process arguments .
 
 ### Prerequisites
 
@@ -10,34 +10,23 @@ Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regul
 | Supported |   v   |    v    |    v    |  v   |
 
 
-|  Runtime | node.js | Python | Java |
-|:---------|:-------:|:------:|:----:|
-| Required |    -    |    -   |   -  |
-
-
 ### Plugin Setup
-None
 
 #### Plugin Configuration Fields
-
 |Field Name        |Description                                                                                                                                                                                                                                                    |
 |:-----------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Source            |The source to display in the legend for the CPU data.|
-|Process Parameter Option|Parameter option for matching process. Parameter can be any of name/path/cwd/args regex. Choose the parameter option as Process Name Regex, Process Path Regex, Process CWD Regex or Process Args Regex |
-|Process Parameter Value|A regular expression to match the chosen Param Option(name/path/cwd/args) of the process. |
-                                                                     |
-|Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked) and Longest running to choose longest running process|
-
-|Collect Cpu Utilization  |A check/uncheck option to active/inactive CPU utilization metrics display .|
-
-|Collect Memory Utilization  |A check/uncheck option to active/inactive Memory Utilization metrics display.|
+|Source            |The source to display in the legend for the CPU & Memory data.                                                                                                                                                                                                          |
+|Process Name Regex*|A regular expression to match the name of the process.                                                                                                                                                                                                         |
+|Process Path Regex*|A regular expression to match the full path of the process.                                                                                                                                                                                                    |
+|Process CWD Regex* |A regular expression to match the current working directory of the process.                                                                                                                                                                                    |
+|Process Args Regex*|A regular expression to match the arguments of the process.                                                                                                                                                                                                    |
+|Polling Interval|A numeric value representing polling interval time in miliseconds (ex 1000 for 1 Sec).                                                                                                                                                                                                    |
+|Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked), or Longest Running to pick the process that has been running the longest.|
+|                   |* You should input at least one of the marked fields, all of the fields cannot be empty.                                                                                                                                                                                                    |
 
 ### Metrics Collected
 
-|Metric Name|Description                     |
-|:----------|:-------------------------------|
-|CPU Process|Process specific CPU utilization|
-|Memory Process|Process specific Memory utilization|
-
-
-
+|Metric Name   |Description                                                             |
+|:-------------|:-----------------------------------------------------------------------|
+|CPU Process   |Process specific CPU utilization                                        |
+|Memory Process|Process specific Memory utilization                                     |

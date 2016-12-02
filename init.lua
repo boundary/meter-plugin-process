@@ -20,28 +20,12 @@ local plugin = nil
 local createOptions=function(item)
 
    local options = {}
+   
    options.source = notEmpty(item.source,hostName)
-   
-   --default
-   options.process = ''
-   options.path_expr = ''
-   options.cwd_expr = ''
-   options.args_expr = ''
-   
-   if(item.processParamOption=="nameregex") then
-     options.process = item.processParamValue
-   end
-   if(item.processParamOption=="pathregex") then
-     options.path_expr = item.processParamValue
-   end     
-   if(item.processParamOption=="cwdregex") then
-     options.cwd_expr = item.processParamValue
-   end
-   if(item.processParamOption=="argsregex") then
-     options.args_expr = item.processParamValue
-   end
-   
-   
+   options.process = item.processName or ''
+   options.path_expr = item.processPath or ''
+   options.cwd_expr = item.processCwd or ''
+   options.args_expr = item.processArgs or ''
    options.reconcile = item.reconcile or ''
    options.isCpuMetricsReq = item.isCpuMetricsReq or false
    options.isMemMetricsReq = item.isMemMetricsReq or false
