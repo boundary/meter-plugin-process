@@ -53,7 +53,7 @@
 		},
     {
 			"title" : "Poll Interval (ms)",
-			"name" : "pollInterval (ms)",
+			"name" : "pollInterval",
 			"description" : "A number in milisecond to define the poll interval.",
 			"type" : "number",
       "default": 1000
