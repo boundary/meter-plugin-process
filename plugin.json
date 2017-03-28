@@ -81,8 +81,7 @@
 			"title" : "Reconcile option",
 			"name" : "reconcile",
 			"description" : "How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked) and Longest running for choosing longest running process",
-			"type" : { "enum" : [["Longest Running", "longest"], ["First Match", "first"], ["Parent", "parent"],["All", "all"]]},
-
+			"type" : { "enum" : [["Longest Running", "longest"], ["First Match", "first"], ["Parent", "parent"],["All", "all"]]}
 		}
 	]
 }
