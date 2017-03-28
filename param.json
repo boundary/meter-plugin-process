@@ -2,12 +2,16 @@
 	"items" :
 	[
 		{
-			"source" : "localhost",
-			"processArgs" : ".*meter",
-      "reconcile":"first",
+			"source" : "",
+      "processName":".*meter",
+      "processPath":"",
+      "processCwd":"",
+			"processArgs" : "",
+      "reconcile":"longest",
       "pollInterval":1000,
       "isCpuMetricsReq":true,
-      "isMemMetricsReq":true
+      "isMemMetricsReq":true,
+      "isFHMetricsReq":true
       
 		}
 	],

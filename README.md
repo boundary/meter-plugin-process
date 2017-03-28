@@ -1,13 +1,13 @@
 TrueSight Pulse Process Plugin
 ---------------------------
 
-Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regular expressions to specify a process name, process full path, the process current working directory and/or process arguments .
+Displays CPU usage (%), Memory usage (bytes) & Open Handles for specific processes. Uses regular expressions to specify a process name, process full path, the process current working directory and/or process arguments .
 
 ### Prerequisites
 
-|     OS    | Linux | Windows | SmartOS | OS X |
-|:----------|:-----:|:-------:|:-------:|:----:|
-| Supported |   v   |    v    |    v    |  v   |
+|     OS    | Linux | Windows | OS X |
+|:----------|:-----:|:-------:|:----:|
+| Supported |   v   |    v    |  v   |
 
 
 ### Plugin Setup
@@ -30,3 +30,4 @@ Displays CPU usage (%) & Memory usage (bytes) for specific processes. Uses regul
 |:-------------|:-----------------------------------------------------------------------|
 |CPU Process   |Process specific CPU utilization                                        |
 |Memory Process|Process specific Memory utilization                                     |
+|Open Handles  |Process specific Open Handles                                           |

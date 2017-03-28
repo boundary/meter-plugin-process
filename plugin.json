@@ -6,7 +6,8 @@
 	"command_lua" : "boundary-meter init.lua",
 	"metrics" : [
                "CPU_PROCESS",
-              "MEM_PROCESS"
+                "MEM_PROCESS",
+                "OPEN_HANDLES"
               ],
   "dashboards": [
     {
@@ -70,11 +71,18 @@
 			"description" : "Check this field if you want Memory utilization data.",
 			"type" : "boolean"
 		},
+    {
+			"title" : "Collect Open Handles",
+			"name" : "isFHMetricsReq",
+			"description" : "Check this field if you want Open Handles data.",
+			"type" : "boolean"
+		},
 		{
 			"title" : "Reconcile option",
 			"name" : "reconcile",
 			"description" : "How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked) and Longest running for choosing longest running process",
-			"type" : { "enum" : [["All", "all"], ["First Match", "first"], ["Parent", "parent"],["Longest Running", "longest"]]}
+			"type" : { "enum" : [["Longest Running", "longest"], ["First Match", "first"], ["Parent", "parent"],["All", "all"]]},
+
 		}
 	]
 }

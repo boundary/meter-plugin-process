@@ -14,6 +14,14 @@
     "displayName": "Memory Process",
     "displayNameShort": "Mem Process",
     "unit": "bytecount"
+  },
+  "OPEN_HANDLES": {
+    "defaultAggregate": "MAX",
+    "defaultResolutionMS": 1000,
+    "description": "Process specific open handles.",
+    "displayName": "Open Handles",
+    "displayNameShort": "Open Handles",
+    "unit": "number"
   }
 
 }
