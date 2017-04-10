@@ -13,9 +13,7 @@ local PollerCollection = framework.PollerCollection
 local ipack = framework.util.ipack
 local parseJson = framework.util.parseJson
 local notEmpty = framework.string.notEmpty
---local table = framework.table
 local clone = framework.table.clone
---Getting the parameters from params.json.
 local params = framework.params
 local hostName =nil
 local pollers = nil
@@ -112,7 +110,6 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
           table.insert(processArray,valueObj)
           tempProcessValMap[V["name"]] = processArray
         end
-        --print(" tempProcessValMap ".. json.stringify(tempProcessValMap))
 
         for K,V  in pairs(tempProcessValMap) do
           local indexMap =  pIdIndexMap[K] or {}
@@ -127,17 +124,11 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
               table.insert(leftOutProcesses,V1)
             end
           end
-          --print("processValList 1  ".. json.stringify(processValList))
-          --print("indexMap  1  " .. json.stringify(indexMap))
-          --print("leftOutProcesses 1  " .. json.stringify(leftOutProcesses))
           --Fill left processes
           local i=1
           while i <= #leftOutProcesses do
-            --indexSort and start from 1
-            --print("indexMap "..json.stringify(indexMap).." , ".. table.getSize(indexMap))
             local j=1;
             while (j <= table.getSize(indexMap)) do
-              --print("j "..j.." processValMap[j] "..json.stringify(processValMap))
               if(not processValMap[j]) then
                 local value = leftOutProcesses[i]
                 value["name"] = prams['source'].."_"..value["name"]..j
@@ -146,7 +137,6 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
                 table.remove(leftOutProcesses,i)
                 table.removeValue(indexMap,j)
                 indexMap[value["pid"]]=j
-                --print("VALUe inserted at position J "..j)
                 i=i+1;
                 break;
               end
@@ -154,9 +144,7 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
             end
             i=i+1;
           end
-          --print("processValList 2  ".. json.stringify(processValList))
-          --print("indexMap 2  " .. json.stringify(indexMap))
-          --print("leftOutProcesses 2  " .. json.stringify(leftOutProcesses).."  size "..#leftOutProcesses)
+          --append rest processes at end
           i=1
           while i <= #leftOutProcesses do
             local count = #processValList
@@ -168,15 +156,11 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse)
             i=i+1
           end
 
-          --print("processValList  3 ".. json.stringify(processValList))
-          --print("indexMap  3 " .. json.stringify(indexMap))
-          --print("leftOutProcesses 3  " .. json.stringify(leftOutProcesses))
           pIdIndexMap[K] = indexMap
         end
 
-        --end
       else
-        --start
+        
         local processMap = {}
 
         for K,V  in pairs(parsed.result.processes) do
