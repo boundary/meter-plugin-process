@@ -1,15 +1,15 @@
 {
-	"items" :
-	[
-		{
-			"source" : "localhost",
-			"processArgs" : ".*meter",
-      "reconcile":"first",
-      "pollInterval":1000,
-      "isCpuMetricsReq":true,
-      "isMemMetricsReq":true
-      
-		}
-	],
-  "pollInterval" : 1000
+    "items": [{
+            "source": "",
+            "processName": ".*meter",
+            "processPath": "",
+            "processCwd": "",
+            "processArgs": "",
+            "reconcile": "all_source_avg",
+            "pollInterval": 1000,
+            "isCpuMetricsReq": true,
+            "isMemMetricsReq": true,
+            "isFHMetricsReq": true
+        }],
+    "pollInterval": 1000
 }
