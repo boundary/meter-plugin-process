@@ -8,7 +8,7 @@
     "unit": "percent"
   } ,
 "MEM_PROCESS": {
-    "defaultAggregate": "MAX",
+    "defaultAggregate": "AVG",
     "defaultResolutionMS": 1000,
     "description": "Process specific memory usage.",
     "displayName": "Memory Process",
@@ -16,11 +16,19 @@
     "unit": "bytecount"
   },
   "OPEN_HANDLES": {
-    "defaultAggregate": "MAX",
+    "defaultAggregate": "AVG",
     "defaultResolutionMS": 1000,
     "description": "Process specific open handles.",
     "displayName": "Open Handles",
     "displayNameShort": "Open Handles",
+    "unit": "number"
+  },
+  "PROCESS_COUNT": {
+    "defaultAggregate": "AVG",
+    "defaultResolutionMS": 1000,
+    "description": "No of process running.",
+    "displayName": "Process Count",
+    "displayNameShort": "Process Count",
     "unit": "number"
   }
 

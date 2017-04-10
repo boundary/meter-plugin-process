@@ -1,7 +1,7 @@
 TrueSight Pulse Process Plugin
 ---------------------------
 
-Displays CPU usage (%), Memory usage (bytes) & Open Handles for specific processes. Uses regular expressions to specify a process name, process full path, the process current working directory and/or process arguments .
+Displays CPU usage (%), Memory usage (bytes), Open Handles & No of Processes for specific processes. Uses regular expressions to specify a process name, process full path, the process current working directory and/or process arguments .
 
 ### Prerequisites
 
@@ -21,7 +21,7 @@ Displays CPU usage (%), Memory usage (bytes) & Open Handles for specific process
 |Process CWD Regex* |A regular expression to match the current working directory of the process.                                                                                                                                                                                    |
 |Process Args Regex*|A regular expression to match the arguments of the process.                                                                                                                                                                                                    |
 |Polling Interval|A numeric value representing polling interval time in miliseconds (ex 1000 for 1 Sec).                                                                                                                                                                                                    |
-|Reconcile option  |How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked), or Longest Running to pick the process that has been running the longest.|
+|Reconcile option  |How to reconcile in the case if multiple processes match.  Set to All Source Average to use the average of matching processes, All Individual Source to use each process individually, First Match to use the first matching process, Parent to choose the parent process (useful if process is forked), or Longest Running to pick the process that has been running the longest.|
 |                   |* You should input at least one of the marked fields, all of the fields cannot be empty.                                                                                                                                                                                                    |
 
 ### Metrics Collected
@@ -31,3 +31,4 @@ Displays CPU usage (%), Memory usage (bytes) & Open Handles for specific process
 |CPU Process   |Process specific CPU utilization                                        |
 |Memory Process|Process specific Memory utilization                                     |
 |Open Handles  |Process specific Open Handles                                           |
+|Process Count |No of processes running                                                 |
