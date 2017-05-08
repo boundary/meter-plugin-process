@@ -1,7 +1,9 @@
 TrueSight Pulse Process Plugin
----------------------------
+-------------------------------
 
 Displays CPU usage (%), Memory usage (bytes), Open Handles & No of Processes for specific processes. Uses regular expressions to specify a process name, process full path, the process current working directory and/or process arguments .
+
+Note: This plugin replaces the plugins [Process CPU Plugin](https://help.truesight.bmc.com/hc/en-us/articles/202671821-Process-CPU-Plugin) & [Process Memory Plugin](https://help.truesight.bmc.com/hc/en-us/articles/202671861-Process-Memory-Plugin).
 
 ### Prerequisites
 
