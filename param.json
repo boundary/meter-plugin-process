@@ -9,7 +9,8 @@
             "pollInterval": 1000,
             "isCpuMetricsReq": true,
             "isMemMetricsReq": true,
-            "isFHMetricsReq": true
+            "isFHMetricsReq": true,
+            "loglevel":"error"
         }],
     "pollInterval": 1000
 }
