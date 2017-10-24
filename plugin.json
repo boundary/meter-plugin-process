@@ -59,7 +59,7 @@
             "name": "pollInterval",
             "description": "A number in milisecond to define the poll interval.",
             "type": "number",
-            "default": 5000
+            "default": 1000
         },
         {
             "title": "Collect CPU Utilization",
