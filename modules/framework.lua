@@ -54,7 +54,7 @@ local factory = function (class)
   end
 end
 
-framework.version = '0.10.0'
+framework.version = '0.10.1'
 framework.boundary = boundary
 framework.params = boundary.param or json.parse(fs.readFileSync('param.json')) or {}
 framework.plugin_params = boundary.plugin or json.parse(fs.readFileSync('plugin.json')) or {}
@@ -96,7 +96,7 @@ Logger.ERROR = 40
 Logger.WARNING = 30
 Logger.INFO = 20
 Logger.DEBUG = 10
-Logger.NOTSET = 0
+Logger.NOTSET = 60
 
 Logger.level_map = {
   critical = Logger.CRITICAL,
@@ -123,11 +123,15 @@ function Logger:initialize(stream, level)
 end
 
 function Logger:isEnabledFor(level)
-  return level <= self.level 
+  return level >= self.level 
 end
 
 function Logger:setLevel(level)
   self.level = level or Logger.NOTSET
+end
+
+function Logger:getLevel()
+  return self.level
 end
 
 function Logger:dump(args)

@@ -1,5 +1,5 @@
 {
-    "version": "0.9.2",
+    "version": "0.9.3",
     "tags": "process", 
     "description": "Displays process specific metrics on a source",      
     "command": "truesight-meter init.lua",
@@ -88,6 +88,14 @@
             "description": "How to reconcile in the case that multiple processes match.  Set to First Match to use the first matching process, Parent to choose the parent process (useful if process is forked) and Longest running for choosing longest running process",
             "type": {
                 "enum": [["All Source Average", "all_source_avg"], ["All Individual Source", "all_ind_source"], ["Longest Running", "longest"], ["First Match", "first"], ["Parent", "parent"]]
+            }
+        },
+        {
+            "title": "Logging Level",
+            "name": "loglevel",
+            "description": "Set the plugin logging level",
+            "type": {
+                "enum": [["error", "error"], ["warning", "warning"], ["info", "info"], ["debug", "debug"],["critical", "critical"]]
             }
         }
     ]
