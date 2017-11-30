@@ -1211,12 +1211,13 @@ end
 
 function DataSourcePoller:_poll(callback)
   local success, err = pcall(function () 
-    self.dataSource:fetch(self, callback)
+    self.dataSource:fetch(self, callback,function()
+	    timer.setTimeout(self.pollInterval, function () self:_poll(callback) end)
+	  end)
   end)
   if not success then
     self:emit('error', err) 
   end
-  timer.setTimeout(self.pollInterval, function () self:_poll(callback) end)
 end
 
 --- Start polling for data.
@@ -1514,6 +1515,7 @@ end
 -- @func callback a callback function that will be passed to the DataSourcePollers.
 function PollerCollection:run(callback)
   if self.running then
+  
     return
   end
 
