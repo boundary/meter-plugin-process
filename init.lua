@@ -5,6 +5,7 @@ local framework = require('framework')
 local net = require('net')
 local json = require('json')
 local os = require('os')
+local timer = require('timer')
 
 local Plugin = framework.Plugin
 local DataSource = framework.DataSource
@@ -387,48 +388,68 @@ local createPollers=function(params)
   return polers
 end
 
-local start = function()
-  local socket1 = nil
-  local ck = function(data)
-    socket1:write('{"jsonrpc":"2.0","id":3,"method":"get_system_info","params":{}}')
+-- Start function to load the host name and run the plugin
+local start = function(retryCount)
+  if(retryCount <= 2) then
+
+    local socket1 = nil
+    local ck = function(data)
+      socket1:write('{"jsonrpc":"2.0","id":3,"method":"get_system_info","params":{}}')
+    end
+    socket1 = net.createConnection(9192, '127.0.0.1', ck)
+
+    socket1:once('error',function(data)
+      log:error("Getting system information resulted into error,", json.stringify(data))
+      socket1:destroy()
+      log:error("Retry "..(retryCount + 1)..": Sleeping for 5 sec before trying again");
+      timer.setTimeout(5000, function()
+        initStart(retryCount + 1)
+      end)
+    end)
+
+    socket1:once('data',function(data)
+      local sucess,  parsed = parseJson(data)
+      if(parsed and parsed.result and parsed.result.hostname) then
+        hostName =  parsed.result.hostname--:gsub("%-", "")
+      end
+      socket1:destroy()
+
+      if not hostName then
+        log:error("Retry "..(retryCount + 1)..": Sleeping for 5 sec before trying again");
+        timer.setTimeout(5000, function()
+          initStart(retryCount + 1)
+        end)
+      else
+
+        -- create the pollers and run the plugin
+        pollers = createPollers(params)
+        plugin = Plugin:new(params, pollers)
+        function plugin:onError(err)
+          return err
+        end
+
+        function plugin:onParseValues(data, extra)
+          local measurements = {}
+          local measurement = function (...)
+            ipack(measurements, ...)
+          end
+          for K,V  in pairs(data) do
+            measurement(V.metric, V.value, nil , V.source)
+          end
+          return measurements
+        end
+        plugin:run()
+        -- plugin run completed
+      end
+    end)
+  else
+    log:error("The host name could not be retrieved. Plugin failed to start. Please try restarting the plugin")
+    Plugin:emitEvent("error","The host name could not be retrieved. Plugin failed to start. Please try restarting the plugin")
   end
-  socket1 = net.createConnection(9192, '127.0.0.1', ck)
-
-  socket1:once('error',function(data)
-    log:error("Getting system information resulted into error,", json.stringify(data))
-    Plugin:emitEvent('error', 'Getting system information resulted into error,'..json.stringify(data))
-    socket1:destroy()
-  end)
-  socket1:once('data',function(data)
-    local sucess,  parsed = parseJson(data)
-    if(parsed and parsed.result and parsed.result.hostname)then
-      hostName =  parsed.result.hostname--:gsub("%-", "")
-    end
-    socket1:destroy()
-
-    pollers = createPollers(params)
-    plugin = Plugin:new(params, pollers)
-    function plugin:onError(err)
-      return err
-    end
-
-    function plugin:onParseValues(data, extra)
-      local measurements = {}
-      local measurement = function (...)
-        ipack(measurements, ...)
-      end
-      for K,V  in pairs(data) do
-        measurement(V.metric, V.value, nil , V.source)
-      end
-
-      return measurements
-    end
-    plugin:run()
-    if not hostName then
-      log:error("The host name could not be retrieved. Plugin failed to start. Please try restarting the plugin")
-      Plugin:emitEvent("error","The host name could not be retrieved. Plugin failed to start. Please try restarting the plugin")
-    end
-  end)
 end
 
-start();
+function init(c)
+  start(c)
+end
+-- Start the plugin
+init(0);
