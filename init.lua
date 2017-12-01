@@ -5,6 +5,7 @@ local framework = require('framework')
 local net = require('net')
 local json = require('json')
 local os = require('os')
+local timer = require('timer')
 
 local Plugin = framework.Plugin
 local DataSource = framework.DataSource
@@ -51,10 +52,11 @@ function ProcessCpuDataSource:initialize(params,index)
   self.instanceNumber = "Instance"..index
   self.instancelog = logger:new(process.stderr,logger.parseLevel(params.logLevel))
   self.instancelog:debug(self.instanceNumber..": Process Instance initialized process:"..params.process..", path:"..params.path_expr..",cwd:"..params.cwd_expr..",args:"..params.args_expr)
+  
 end
 
 --ProcessCpuDataSource fetch function
-function ProcessCpuDataSource:fetch(context, callback,params)
+function ProcessCpuDataSource:fetch(context, callback,finalCallBack)
   self.instancelog:debug(self.instanceNumber..": Data source fetch called")
   local options = clone(self.options)
   local parse = function (self,val)
@@ -73,7 +75,7 @@ function ProcessCpuDataSource:fetch(context, callback,params)
       if (self.options.args_expr and self.options.args_expr ~= '') then
         message= message .. ", Process Args Regex="..self.options.args_expr
       end
-      Plugin:emitEvent('error', 'No process found with given parameters'..message)
+      Plugin:emitEvent('error', 'Process: No process found with given parameters'..message)
       self.instancelog:error(self.instanceNumber..": No process found with given parameters"..message)
       return
     end
@@ -81,9 +83,10 @@ function ProcessCpuDataSource:fetch(context, callback,params)
       table.insert(result, {metric = V["metric"], value = V["val"],source = V["source"], timestamp = nil})
     end
     callback(result)
+    finalCallBack()
   end
   --Call the get process cpu Data which will make JSON RPC calls
-  ProcessCpuDataSource:getProcessCpuData(9192,'127.0.0.1',options,parse,self)
+  ProcessCpuDataSource:getProcessCpuData(9192,'127.0.0.1',options,parse,finalCallBack,self)
 end
 
 
@@ -99,10 +102,7 @@ function ProcessCpuDataSource:getProcessCommandString(params)
   return '{"jsonrpc":"2.0","method":"get_process_info","id":1,"params":' .. json.stringify(commandParam) .. '}\n'
 end
 
-
-
-
-function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse,self)
+function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse,finalCallBack,self)
   --local logger = self.log
   local socket = nil
   local selfLog = self.instancelog
@@ -116,14 +116,15 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse,self)
 
   socket:once('error',function(data)
     selfLog:debug(self.instanceNumber..": Get process details resulted into error, "..json.stringify(data))
-    Plugin:emitEvent('error', 'Get process details resulted into error,'..json.stringify(data))
+    Plugin:emitEvent('error', 'Process: Get process details resulted into error,'..json.stringify(data))
     socket:destroy()
+    finalCallBack()
   end)
   socket:once('data',function(data)
     selfLog:debug(self.instanceNumber..": Get process details successful")
     local sucess,  parsed = parseJson(data)
     local result = {}
-    if(parsed and parsed.result and parsed.result.processes~=nil)then
+    if(parsed and parsed.result and parsed.result.processes~=nil) then
 
       local processValMap = {}
       local processValList = {}
@@ -294,6 +295,7 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse,self)
     end
     socket:destroy()
     parse(self,result)
+
   end)
 end
 
@@ -380,55 +382,75 @@ local createPollers=function(params)
       polers:add(statsPoller)
     else
       log:error("Instance"..index..": Plugin instance parameters should not be empty, at least one of the parameters is required.")
-      Plugin:emitEvent("error","Instance"..index..": Plugin instance parameters should not be empty, at least one of the parameters is required.")
+      Plugin:emitEvent("error","Process: Instance"..index..": Plugin instance parameters should not be empty, at least one of the parameters is required.")
     end
     index = index + 1
   end
   return polers
 end
 
-local start = function()
-  local socket1 = nil
-  local ck = function(data)
-    socket1:write('{"jsonrpc":"2.0","id":3,"method":"get_system_info","params":{}}')
+-- Start function to load the host name and run the plugin
+local start = function(retryCount)
+  if(retryCount <= 2) then
+
+    local socket1 = nil
+    local ck = function(data)
+      socket1:write('{"jsonrpc":"2.0","id":3,"method":"get_system_info","params":{}}')
+    end
+    socket1 = net.createConnection(9192, '127.0.0.1', ck)
+
+    socket1:once('error',function(data)
+      log:error("Getting system information resulted into error,", json.stringify(data))
+      socket1:destroy()
+      log:error("Retry "..(retryCount + 1)..": Sleeping for 5 sec before trying again");
+      timer.setTimeout(5000, function()
+        init(retryCount + 1)
+      end)
+    end)
+
+    socket1:once('data',function(data)
+      local sucess,  parsed = parseJson(data)
+      if(parsed and parsed.result and parsed.result.hostname) then
+        hostName =  parsed.result.hostname--:gsub("%-", "")
+      end
+      socket1:destroy()
+
+      if not hostName then
+        log:error("Retry "..(retryCount + 1)..": Sleeping for 5 sec before trying again");
+        timer.setTimeout(5000, function()
+          init(retryCount + 1)
+        end)
+      else
+
+        -- create the pollers and run the plugin
+        pollers = createPollers(params)
+        plugin = Plugin:new(params, pollers)
+        function plugin:onError(err)
+          return err
+        end
+
+        function plugin:onParseValues(data, extra)
+          local measurements = {}
+          local measurement = function (...)
+            ipack(measurements, ...)
+          end
+          for K,V  in pairs(data) do
+            measurement(V.metric, V.value, nil , V.source)
+          end
+          return measurements
+        end
+        plugin:run()
+        -- plugin run completed
+      end
+    end)
+  else
+    log:error("The host name could not be retrieved. Plugin failed to start. Please try restarting the plugin")
+    Plugin:emitEvent("error","Process: The host name could not be retrieved. Plugin failed to start. Please try restarting the plugin")
   end
-  socket1 = net.createConnection(9192, '127.0.0.1', ck)
-
-  socket1:once('error',function(data)
-    log:error("Getting system information resulted into error,", json.stringify(data))
-    Plugin:emitEvent('error', 'Getting system information resulted into error,'..json.stringify(data))
-    socket1:destroy()
-  end)
-  socket1:once('data',function(data)
-    local sucess,  parsed = parseJson(data)
-    if(parsed and parsed.result and parsed.result.hostname)then
-      hostName =  parsed.result.hostname--:gsub("%-", "")
-    end
-    socket1:destroy()
-
-    pollers = createPollers(params)
-    plugin = Plugin:new(params, pollers)
-    function plugin:onError(err)
-      return err
-    end
-
-    function plugin:onParseValues(data, extra)
-      local measurements = {}
-      local measurement = function (...)
-        ipack(measurements, ...)
-      end
-      for K,V  in pairs(data) do
-        measurement(V.metric, V.value, nil , V.source)
-      end
-
-      return measurements
-    end
-    plugin:run()
-    if not hostName then
-      log:error("The host name could not be retrieved. Plugin failed to start. Please try restarting the plugin")
-      Plugin:emitEvent("error","The host name could not be retrieved. Plugin failed to start. Please try restarting the plugin")
-    end
-  end)
 end
 
-start();
+function init(c)
+  start(c)
+end
+-- Start the plugin
+init(0);
