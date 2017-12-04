@@ -52,7 +52,7 @@ function ProcessCpuDataSource:initialize(params,index)
   self.instanceNumber = "Instance"..index
   self.instancelog = logger:new(process.stderr,logger.parseLevel(params.logLevel))
   self.instancelog:debug(self.instanceNumber..": Process Instance initialized process:"..params.process..", path:"..params.path_expr..",cwd:"..params.cwd_expr..",args:"..params.args_expr)
-  
+
 end
 
 --ProcessCpuDataSource fetch function
@@ -77,6 +77,7 @@ function ProcessCpuDataSource:fetch(context, callback,finalCallBack)
       end
       Plugin:emitEvent('error', 'Process: No process found with given parameters'..message)
       self.instancelog:error(self.instanceNumber..": No process found with given parameters"..message)
+      finalCallBack()
       return
     end
     for K,V  in pairs(val) do
