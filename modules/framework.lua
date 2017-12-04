@@ -1296,11 +1296,23 @@ function Plugin:printCritical(title, host, source, msg)
 end
 
 function Plugin.formatMessage(name, version, title, host, source, msg)
-  if title and title ~= "" then title = '-'..title else title = "" end
+  local ver = '';
+  local nm ='';
+  if name and name ~= "" then
+    nm = name;
+  end
+  if version and version ~= "" then
+    ver = ' version '..version
+  end
+  if (nm == '' and ver == '') then
+    if title and title ~= "" then title = title else title = "" end
+  else
+    if title and title ~= "" then title = '-'..title else title = "" end
+  end
   if msg and msg ~= "" then msg = '|m:'..msg else msg = "" end
   if host and host ~= "" then host = '|h:'..host else host = "" end
   if source and source ~= "" then source = '|s:'..source else source = "" end
-  return string.format('%s version %s%s%s%s%s', name, version, title, msg, host, source)
+  return string.format('%s%s%s%s%s%s', nm, ver, title, msg, host, source)
 end
 
 function Plugin.formatTags(tags)

@@ -75,7 +75,7 @@ function ProcessCpuDataSource:fetch(context, callback,finalCallBack)
       if (self.options.args_expr and self.options.args_expr ~= '') then
         message= message .. ", Process Args Regex="..self.options.args_expr
       end
-      Plugin:emitEvent('error', 'Process: No process found with given parameters'..message)
+      plugin:emitEvent('error', 'No process found with given parameters'..message)
       self.instancelog:error(self.instanceNumber..": No process found with given parameters"..message)
       finalCallBack()
       return
@@ -117,7 +117,7 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse,finalCallB
 
   socket:once('error',function(data)
     selfLog:debug(self.instanceNumber..": Get process details resulted into error, "..json.stringify(data))
-    Plugin:emitEvent('error', 'Process: Get process details resulted into error,'..json.stringify(data))
+    plugin:emitEvent('error', 'Get process details resulted into error,'..json.stringify(data))
     socket:destroy()
     finalCallBack()
   end)
