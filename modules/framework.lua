@@ -54,7 +54,7 @@ local factory = function (class)
   end
 end
 
-framework.version = '0.10.1'
+framework.version = '0.11.0'
 framework.boundary = boundary
 framework.params = boundary.param or json.parse(fs.readFileSync('param.json')) or {}
 framework.plugin_params = boundary.plugin or json.parse(fs.readFileSync('plugin.json')) or {}
@@ -1211,12 +1211,16 @@ end
 
 function DataSourcePoller:_poll(callback)
   local success, err = pcall(function () 
-    self.dataSource:fetch(self, callback,function()
-	    timer.setTimeout(self.pollInterval, function () self:_poll(callback) end)
-	  end)
+    self.dataSource:fetch(self, function(...)
+      -- capture the fetch result and then schedule the next poll.
+      -- This eliminates the possibility of getting called before finishing
+      callback(...)
+      timer.setTimeout(self.pollInterval, function () self:_poll(callback) end)
+    end)
   end)
   if not success then
     self:emit('error', err) 
+    timer.setTimeout(self.pollInterval, function () self:_poll(callback) end)
   end
 end
 
@@ -1527,7 +1531,6 @@ end
 -- @func callback a callback function that will be passed to the DataSourcePollers.
 function PollerCollection:run(callback)
   if self.running then
-  
     return
   end
 
@@ -1820,7 +1823,7 @@ function FileReaderDataSource:fetch(context, func, params)
     self:emit('error', 'The "' .. self.path .. '" was not found.')
   else 
     local success, result = pcall(fs.readFileSync, self.path)
-    if not success then
+	  if not success then
       self:emit('error', failure)
     else
       func(result)
@@ -1837,4 +1840,3 @@ framework.PollerCollection = PollerCollection
 framework.MeterDataSource = MeterDataSource
 
 return framework
-

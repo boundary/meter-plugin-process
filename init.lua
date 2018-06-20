@@ -56,7 +56,7 @@ function ProcessCpuDataSource:initialize(params,index)
 end
 
 --ProcessCpuDataSource fetch function
-function ProcessCpuDataSource:fetch(context, callback,finalCallBack)
+function ProcessCpuDataSource:fetch(context, callback)
   self.instancelog:debug(self.instanceNumber..": Data source fetch called")
   local options = clone(self.options)
   local parse = function (self,val)
@@ -77,17 +77,15 @@ function ProcessCpuDataSource:fetch(context, callback,finalCallBack)
       end
       plugin:emitEvent('error', 'No process found with given parameters'..message)
       self.instancelog:error(self.instanceNumber..": No process found with given parameters"..message)
-      finalCallBack()
       return
     end
     for K,V  in pairs(val) do
       table.insert(result, {metric = V["metric"], value = V["val"],source = V["source"], timestamp = nil})
     end
     callback(result)
-    finalCallBack()
   end
   --Call the get process cpu Data which will make JSON RPC calls
-  ProcessCpuDataSource:getProcessCpuData(9192,'127.0.0.1',options,parse,finalCallBack,self)
+  ProcessCpuDataSource:getProcessCpuData(9192,'127.0.0.1',options,parse,self)
 end
 
 
@@ -103,7 +101,7 @@ function ProcessCpuDataSource:getProcessCommandString(params)
   return '{"jsonrpc":"2.0","method":"get_process_info","id":1,"params":' .. json.stringify(commandParam) .. '}\n'
 end
 
-function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse,finalCallBack,self)
+function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse,self)
   --local logger = self.log
   local socket = nil
   local selfLog = self.instancelog
@@ -119,7 +117,6 @@ function ProcessCpuDataSource:getProcessCpuData(port,host,prams,parse,finalCallB
     selfLog:debug(self.instanceNumber..": Get process details resulted into error, "..json.stringify(data))
     plugin:emitEvent('error', 'Get process details resulted into error,'..json.stringify(data))
     socket:destroy()
-    finalCallBack()
   end)
   socket:once('data',function(data)
     selfLog:debug(self.instanceNumber..": Get process details successful")
